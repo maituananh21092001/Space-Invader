@@ -16,7 +16,7 @@ class Start:
     def init(self):
         
         pygame.init()
-        game = Game(6)
+        game = Game(6,2)
         # screen resolution
         res = (1000,1000)
         
@@ -61,22 +61,19 @@ class Start:
                     #if the mouse is clicked on the
                     # button the game is terminated
                     if width/3 <= mouse[0] <= width/3+140 and height/3 <= mouse[1] <= height/3+40:
-                        self.status = [self.easy.speed()]
-                        game = Game(self.status[0])
+                        self.status = [self.easy.speed(),self.easy.numberEnemy()]
+                        game = Game(self.status[0],self.status[1])
                         game.run()
-                        
                         pygame.quit()
                     if width/3 <= mouse[0] <= width/3+140 and height/3+50 <= mouse[1] <= height/3+90:
-                        self.status = [self.med.speed()]
-                        game = Game(self.status[0])
+                        self.status = [self.med.speed(),self.med.numberEnemy()]
+                        game = Game(self.status[0],self.status[1])
                         game.run()
-                        
                         pygame.quit()
                     if width/3 <= mouse[0] <= width/3+140 and height/3+100 <= mouse[1] <= height/3+140:
-                        self.status = [self.hard.speed()]
-                        game = Game(self.status[0])
+                        self.status = [self.hard.speed(),self.hard.numberEnemy()]
+                        game = Game(self.status[0],self.status[1])
                         game.run()
-                        
                         pygame.quit()
                         
             # fills the screen with a color

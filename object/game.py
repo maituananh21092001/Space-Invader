@@ -6,7 +6,7 @@ import sys
 class Game:
     
 
-    def __init__(self,Espeed):
+    def __init__(self,Espeed,NumberEnemy):
         
         pygame.init()  # Init pygame
         self.xScreen, self.yScreen = 1000, 600  # Screen create
@@ -14,7 +14,7 @@ class Game:
         self.VPlanes = 15  # Tốc độ Planes
         self.VEnemy = Espeed # Tốc độ Enemy
         self.scores = 0  # Điểm số
-        self.numberEnemy = 2  # Số lượng enemy trong một screen
+        self.numberEnemy =  NumberEnemy # Số lượng enemy trong một screen
         self.numberBullet = 6  # Số bullet trong một screen
         linkBackGround = './data/background.jpg'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.png'  # Đường dẫn ảnh Enemy
