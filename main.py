@@ -1,8 +1,7 @@
 import pygame
 import random
 from pygame import mixer
-
-from object.game import Game
+from object.start import Start
 
 
 # class Game:
@@ -69,7 +68,7 @@ from object.game import Game
 #                 (self.VEnemy if self.listEnemy[count]
 #                  ["direction"] == False else -self.VEnemy)
 #             self.listEnemy[count]["yEnemy"] = yEnemy + \
-#                 self.VEnemy/3.25  # Toạn độ x xông tốc độ Enemy/3
+#                 self.VEnemy/3.25  jjjjh# Toạn độ x xông tốc độ Enemy/3
 #             # Gán giá trị lớn nhất của Enemy theo y
 #             self.YGameOver = yEnemy if yEnemy > self.YGameOver else self.YGameOver
 
@@ -262,5 +261,11 @@ from object.game import Game
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    isStart = True
+    start= Start()
+    start.init()
+        # if not start.init():
+        #     isStart = False
+        #     break
+    # game = Game()
+    # game.run()

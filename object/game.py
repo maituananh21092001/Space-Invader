@@ -1,13 +1,18 @@
 import pygame
 import random
 from pygame import mixer
+from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
+import sys
 class Game:
-    def __init__(self):
+    
+
+    def __init__(self,Espeed):
+        
         pygame.init()  # Init pygame
         self.xScreen, self.yScreen = 1000, 600  # Screen create
         self.VBullet = 15  # Tốc độ Bullet
         self.VPlanes = 15  # Tốc độ Planes
-        self.VEnemy = 6  # Tốc độ Enemy
+        self.VEnemy = Espeed # Tốc độ Enemy
         self.scores = 0  # Điểm số
         self.numberEnemy = 2  # Số lượng enemy trong một screen
         self.numberBullet = 6  # Số bullet trong một screen
@@ -29,7 +34,7 @@ class Game:
         self.listEnemy = []
         self.YGameOver = 0
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
-        self.music("./data/musictheme.wav")
+       
 
     def music(self, url):  # Âm thanh bắn
         bulletSound = mixer.Sound(url)
@@ -81,7 +86,9 @@ class Game:
         # print(self.listBullet)
 
     def run(self):
+        self.music("./data/musictheme.wav")
         while self.gamerunning:
+           
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
                 if event.type == pygame.QUIT:  # sự kiện nhấn thoát
@@ -166,7 +173,7 @@ class Game:
                 #self.pause("../data/musictheme.wav")
                 while(True):
                     for event in pygame.event.get():   # Nếu nhấn
-                        if event.type == pygame.QUIT:  # Thoát
+                        if event.type == pygame.QUIT    :  # Thoát
                             self.gamerunning = False
                             newGame = True
                             break
