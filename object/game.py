@@ -24,7 +24,7 @@ class Game:
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
         self.screen = pygame.display.set_mode(
             (self.xScreen, self.yScreen))  # Khởi tao kích thước màn hình
-        pygame.display.set_caption("Code Learn - Space Invaders")
+        pygame.display.set_caption("Space Invaders - Group 3")
         self.background = pygame.image.load(linkBackGround)
         icon = pygame.image.load(self.linkPlanes)
         pygame.display.set_icon(icon)  # Set icon cho screen
