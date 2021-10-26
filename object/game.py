@@ -3,6 +3,11 @@ import random
 from pygame import mixer
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 import sys
+
+WIDTH = 1280
+HEIGHT = 576
+BLACK = (0,0,0)
+WHITE = (255, 255, 255)
 class Game:
     
 
