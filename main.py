@@ -251,7 +251,7 @@ from object.start import Start
 #             self.show_score(10, 10, "Scores:{}".format(self.scores), 35)
 #             # self.show_score(self.xScreen - 200, 20, "duyduysysy@gmail.com", 15)
 #             # self.image_draw("./data/codelearn-logo.png",
-#             # self.xScreen-180, 10, 150, 60)  # Logo code Learn
+#             # self.xScreen-180, 10, 150, 60)  # Logo code Learn 
 #             #self.chicken()
 #             self.enemy()
 #             self.bullet()

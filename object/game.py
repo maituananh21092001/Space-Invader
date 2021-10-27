@@ -4,17 +4,22 @@ from pygame import mixer
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 import sys
 
+
 WIDTH = 1280
 HEIGHT = 576
 BLACK = (0,0,0)
-WHITE = (255, 255, 255)
+WHITE = (255,255,255)
+RED = (255,0,0)
+BLUE = (0,255,0)
+GREEN = (0,0,255)
+
 class Game:
     
 
     def __init__(self,Espeed,NumberEnemy):
         
         pygame.init()  # Init pygame
-        self.xScreen, self.yScreen = 1000, 600  # Screen create
+        self.xScreen, self.yScreen = WIDTH,HEIGHT  # Screen create
         self.VBullet = 15  # Tốc độ Bullet
         self.VPlanes = 15  # Tốc độ Planes
         self.VEnemy = Espeed # Tốc độ Enemy
@@ -23,6 +28,7 @@ class Game:
         self.numberBullet = 6  # Số bullet trong một screen
         linkBackGround = './data/background.jpg'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.png'  # Đường dẫn ảnh Enemy
+        self.linkEnemyKilled = './data/enemykilled.png' # Đường dẫn ảnh EnemyKilled
         self.linkPlanes = './data/planes.png'  # Đường dẫn ảnh Planes
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
@@ -41,13 +47,13 @@ class Game:
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
        
 
-    def music(self, url):  # Âm thanh bắn
+    def music(self, url, x):  # Âm thanh bắn với tham số x là số lần lặp lại, mặc định 0 là không lặp, -1 là luôn lặp
         bulletSound = mixer.Sound(url)
-        bulletSound.play()
+        bulletSound.play(x)
 
-    def show_score(self, x, y, scores, size):  # Hiển thị điểm
-        font = pygame.font.SysFont("comicsansms", size)
-        score = font.render(str(scores), True, (255, 255, 255))
+    def text(self, x, y, scores, size,font,color):  # Hiển thị điểm
+        font = pygame.font.Font(font, size)
+        score = font.render(str(scores), True, color)
         self.screen.blit(score, (x, y))
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra người hình ảnh
@@ -89,9 +95,34 @@ class Game:
             if yBullet <= 5:  # nếu toạn độ Y phía trên nàm hình thì xóa
                 self.listBullet.remove(self.listBullet[count])
         # print(self.listBullet)
-
+    def gameover(self):
+                newGame = False
+                self.screen.fill(BLACK)
+                pygame.mixer.stop()
+                self.music("./data/Game Over Sound Effect.wav",0)                
+                while(True):
+                    for event in pygame.event.get():   # Nếu nhấn
+                        if event.type == pygame.QUIT    :  # Thoát
+                            self.gamerunning = False
+                            newGame = True
+                            break
+                        if event.type == pygame.KEYDOWN:  # Thoát
+                            newGame = True
+                            break
+                    if(newGame == True):
+                        break
+                    self.text(100, 100, "Scores:{}".format(
+                        self.scores), 40,'./data/font/ARCADE_R.TTF',WHITE)  # In điểm
+                    self.text(self.xScreen/2-100, self.yScreen/2-100,
+                                    "GAME OVER", 50,'./data/font/ARCADE_I.TTF',WHITE)  # In Thông báo thua
+                    pygame.display.update()
+                self.scores = 0      # Trả các biến về giá trị ban đầu
+                self.listBullet = []
+                self.listEnemy = []
+                self.YGameOver = 0
+                self.music("./data/musictheme.wav",-1)
     def run(self):
-        self.music("./data/musictheme.wav")
+        self.music("./data/musictheme.wav",-1)
         while self.gamerunning:
            
             self.screen.blit(self.background, (0, 0))
@@ -109,7 +140,7 @@ class Game:
                         self.K_RIGHT = True
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
-                            self.music("./data/laser.wav")
+                            self.music("./data/laser.wav",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -163,6 +194,8 @@ class Game:
                     # Kiểm tra bullet có nằm giữa Enemy theo trục y không
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
+                        self.image_draw(self.linkEnemyKilled,xEnemy,yEnemy,self.sizexPlanes,self.sizeyPlanes)
+                        self.music('./data/invaderkilled.wav',0)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
@@ -172,34 +205,9 @@ class Game:
                         break
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2
-            if self.YGameOver > self.yScreen-50:  # Nếu Enemy về gần đích
-                newGame = False
-                #self.music("./data/Game Over Sound Effect.wav")
-                #self.pause("../data/musictheme.wav")
-                while(True):
-                    for event in pygame.event.get():   # Nếu nhấn
-                        if event.type == pygame.QUIT    :  # Thoát
-                            self.gamerunning = False
-                            newGame = True
-                            break
-                        if event.type == pygame.KEYDOWN:  # Thoát
-                            newGame = True
-                            break
-                    if(newGame == True):
-                        break
-                    self.show_score(100, 100, "Scores:{}".format(
-                        self.scores), 40)  # In điểm
-                    self.show_score(self.xScreen/2-100, self.yScreen/2-100,
-                                    "GAME OVER", 50)  # In Thông báo thua
-                    pygame.display.update()
-                self.scores = 0      # Trả các biến về giá trị ban đầu
-                self.listBullet = []
-                self.listEnemy = []
-                self.YGameOver = 0
-            self.show_score(10, 10, "Scores:{}".format(self.scores), 35)
-            # self.show_score(self.xScreen - 200, 20, "duyduysysy@gmail.com", 15)
-            self.image_draw("./data/codelearn-logo.png",
-                            self.xScreen-180, 10, 150, 60)  # Logo code Learn
+            if self.YGameOver > self.yScreen-50: # Nếu Enemy về gần đích 
+                self.gameover()
+            self.text(10, 10, "Scores:{}".format(self.scores), 35,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
             self.bullet()
             self.image_draw(self.linkPlanes, self.xPlanes,
