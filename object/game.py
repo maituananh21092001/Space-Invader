@@ -113,7 +113,7 @@ class Game:
                         break
                     self.text(100, 100, "Scores:{}".format(
                         self.scores), 40,'./data/font/ARCADE_R.TTF',WHITE)  # In điểm
-                    self.text(150, 100, "RETRY", 50,'./data/font/ARCADE_R.TTF',GREEN)  # In điểm
+                    self.text(self.xScreen/2 - 100, self.yScreen - 100, "RETRY", 50,'./data/font/ARCADE_R.TTF',GREEN)  # In điểm
                     self.text(self.xScreen/2-100, self.yScreen/2-100,
                                     "GAME OVER", 50,'./data/font/ARCADE_I.TTF',WHITE)  # In Thông báo thua
                     pygame.display.update()
