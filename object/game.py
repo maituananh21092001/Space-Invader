@@ -113,6 +113,7 @@ class Game:
                         break
                     self.text(100, 100, "Scores:{}".format(
                         self.scores), 40,'./data/font/ARCADE_R.TTF',WHITE)  # In điểm
+                    self.text(40, 50, "RETRY", 50,'./data/font/ARCADE_R.TTF',GREEN)  # In điểm
                     self.text(self.xScreen/2-100, self.yScreen/2-100,
                                     "GAME OVER", 50,'./data/font/ARCADE_I.TTF',WHITE)  # In Thông báo thua
                     pygame.display.update()
@@ -124,7 +125,6 @@ class Game:
     def run(self):
         self.music("./data/musictheme.wav",-1)
         while self.gamerunning:
-           
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
                 if event.type == pygame.QUIT:  # sự kiện nhấn thoát
