@@ -3,6 +3,7 @@ import random
 from pygame import mixer
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 import sys
+from os import path
 class Game:
     
 
@@ -34,7 +35,8 @@ class Game:
         self.listEnemy = []
         self.YGameOver = 0
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
-       
+        self.load_data()
+        self.font_name = pygame.font.match_font(FONT_NAME)
 
     def music(self, url):  # Âm thanh bắn
         bulletSound = mixer.Sound(url)
@@ -44,6 +46,18 @@ class Game:
         font = pygame.font.SysFont("comicsansms", size)
         score = font.render(str(scores), True, (255, 255, 255))
         self.screen.blit(score, (x, y))
+
+    def show_highest_score(self,x,y,scores,size):
+        font = pygame.font.SysFont("comicsansms", size)
+        score = font.render(str(scores), True, (255, 255, 255))
+        self.screen.blit(score, (x, y))
+
+    def draw_text(self, text, size, color, x, y):
+        font = pygame.font.Font(self.font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x, y)
+        self.screen.blit(text_surface, text_rect)
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra người hình ảnh
         PlanesImg = pygame.image.load(url)
@@ -84,6 +98,15 @@ class Game:
             if yBullet <= 5:  # nếu toạn độ Y phía trên nàm hình thì xóa
                 self.listBullet.remove(self.listBullet[count])
         # print(self.listBullet)
+
+    def load_data(self):
+        # load high score
+        self.dir = path.dirname(__file__)
+        with open(path.join(self.dir, "highscores.txt"), 'r') as f:
+            try:
+                self.highscore = int(f.read())
+            except:
+                self.highscore = 0
 
     def run(self):
         self.music("./data/musictheme.wav")
@@ -186,6 +209,15 @@ class Game:
                         self.scores), 40)  # In điểm
                     self.show_score(self.xScreen/2-100, self.yScreen/2-100,
                                     "GAME OVER", 50)  # In Thông báo thua
+                   
+                    self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+                    if self.scores > self.highscore:
+                            self.highscore = self.scores
+                            self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 20)
+                            with open(path.join(self.dir, HS_FILE), 'w') as f:
+                                f.write(str(self.scores))
+                    else:
+                        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
                     pygame.display.update()
                 self.scores = 0      # Trả các biến về giá trị ban đầu
                 self.listBullet = []
@@ -200,3 +232,33 @@ class Game:
             self.image_draw(self.linkPlanes, self.xPlanes,
                             self.yPlanes, self.sizexPlanes, self.sizeyPlanes)
             pygame.display.update()  # Update
+# game options/settings
+TITLE = "Jumpy!"
+WIDTH = 480
+HEIGHT = 600
+FPS = 60
+FONT_NAME = 'arial'
+HS_FILE = "highscores.txt"
+
+# Player properties
+PLAYER_ACC = 0.5
+PLAYER_FRICTION = -0.12
+PLAYER_GRAV = 0.8
+PLAYER_JUMP = 20
+
+# Starting platforms
+PLATFORM_LIST = [(0, HEIGHT - 40, WIDTH, 40),
+                 (WIDTH / 2 - 50, HEIGHT * 3 / 4, 100, 20),
+                 (125, HEIGHT - 350, 100, 20),
+                 (350, 200, 100, 20),
+                 (175, 100, 50, 20)]
+
+# define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+LIGHTBLUE = (0, 155, 155)
+BGCOLOR = LIGHTBLUE
