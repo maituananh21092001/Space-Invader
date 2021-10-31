@@ -51,10 +51,10 @@ class Game:
         bulletSound = mixer.Sound(url)
         bulletSound.play(x)
 
-    def text(self, x, y, scores, size,font,color):  # Hiển thị điểm
+    def text(self, x, y, text, size,font,color):  # Hiển thị điểm
         font = pygame.font.Font(font, size)
-        score = font.render(str(scores), True, color)
-        self.screen.blit(score, (x, y))
+        txt = font.render(str(text), True, color)
+        self.screen.blit(txt, (x, y))
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra người hình ảnh
         PlanesImg = pygame.image.load(url)
