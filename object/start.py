@@ -18,7 +18,7 @@ class Start:
         pygame.init()
         game = Game(6,2)
         # screen resolution
-        res = (1000,1000)
+        res = (800,600)
         
         # opens up a window
         screen = pygame.display.set_mode(res)

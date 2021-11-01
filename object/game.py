@@ -2,16 +2,9 @@ import pygame
 import random
 from pygame import mixer
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
+from object.gameover import gameover
 import sys
 
-
-WIDTH = 1280
-HEIGHT = 576
-BLACK = (0,0,0)
-WHITE = (255,255,255)
-RED = (255,0,0)
-BLUE = (0,255,0)
-GREEN = (0,0,255)
 
 from os import path
 class Game:
@@ -109,34 +102,6 @@ class Game:
             if yBullet <= 5:  # nếu toạn độ Y phía trên nàm hình thì xóa
                 self.listBullet.remove(self.listBullet[count])
         # print(self.listBullet)
-    def gameover(self):
-                newGame = False
-                self.screen.fill(BLACK)
-                pygame.mixer.stop()
-                self.music("./data/Game Over Sound Effect.wav",0)                
-                while(True):
-                    for event in pygame.event.get():   # Nếu nhấn
-                        if event.type == pygame.QUIT    :  # Thoát
-                            self.gamerunning = False
-                            newGame = True
-                            break
-                        if event.type == pygame.KEYDOWN:  # Thoát
-                            newGame = True
-                            break
-                    if(newGame == True):
-                        break
-                    self.text(100, 100, "Scores:{}".format(
-                        self.scores), 40,'./data/font/ARCADE_R.TTF',WHITE)  # In điểm
-                    self.text(self.xScreen/2 - 100, self.yScreen - 100, "RETRY", 50,'./data/font/ARCADE_R.TTF',GREEN)  # In điểm
-                    self.text(self.xScreen/2-100, self.yScreen/2-100,
-                                    "GAME OVER", 50,'./data/font/ARCADE_I.TTF',WHITE)  # In Thông báo thua
-                    pygame.display.update()
-                self.scores = 0      # Trả các biến về giá trị ban đầu
-                self.listBullet = []
-                self.listEnemy = []
-                self.YGameOver = 0
-                self.music("./data/musictheme.wav",-1)
-
     def load_data(self):
         # load high score
         self.dir = path.dirname(__file__)
@@ -230,7 +195,7 @@ class Game:
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2
             if self.YGameOver > self.yScreen-50: # Nếu Enemy về gần đích 
-                self.gameover()
+                gameover(self)
             self.text(10, 10, "Scores:{}".format(self.scores), 35,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
             self.bullet()
@@ -239,7 +204,7 @@ class Game:
             pygame.display.update()  # Update
 # game options/settings
 TITLE = "Jumpy!"
-WIDTH = 480
+WIDTH = 800
 HEIGHT = 600
 FPS = 60
 FONT_NAME = 'arial'
