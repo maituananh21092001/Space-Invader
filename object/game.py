@@ -197,6 +197,7 @@ class Game:
                 self.numberEnemy = (self.scores/15) + 2
             if self.YGameOver > self.yScreen-50: # Nếu Enemy về gần đích 
                 gameover(self)
+                
             self.text(10, 10, "Scores:{}".format(self.scores), 20,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
             self.bullet()
