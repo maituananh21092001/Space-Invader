@@ -17,9 +17,9 @@ class Game:
         self.scores = 0  # Điểm số
         self.numberEnemy =  NumberEnemy # Số lượng enemy trong một screen
         self.numberBullet = 6  # Số bullet trong một screen
-        linkBackGround = './data/background.jpg'  # Đường dẫn ảnh background
-        self.linkEnemy = './data/enemy.png'  # Đường dẫn ảnh Enemy
-        self.linkPlanes = './data/planes.png'  # Đường dẫn ảnh Planes
+        linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
+        self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
+        self.linkPlanes = './data/planes.bmp'  # Đường dẫn ảnh Planes
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
@@ -91,7 +91,7 @@ class Game:
         for count, i in enumerate(self.listBullet):
             xBullet = i["xBullet"]  # Lấy trúc tọa độ theo X
             yBullet = i["yBullet"]  # Lấy trúc tọa độ theo X
-            self.image_draw('./data/bullet.png', xBullet,
+            self.image_draw('./data/bullet.bmp', xBullet,
                             yBullet, 50, 50)  # In ra bullet
             self.listBullet[count]["yBullet"] = yBullet - \
                 self.VBullet  # Tiến y vè phía trước
@@ -109,7 +109,7 @@ class Game:
                 self.highscore = 0
 
     def run(self):
-        self.music("./data/musictheme.wav")
+        self.music("./data/musictheme.ogg")
         while self.gamerunning:
            
             self.screen.blit(self.background, (0, 0))
@@ -127,7 +127,7 @@ class Game:
                         self.K_RIGHT = True
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
-                            self.music("./data/laser.wav")
+                            self.music("./data/laser.ogg")
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -225,8 +225,6 @@ class Game:
                 self.YGameOver = 0
             self.show_score(10, 10, "Scores: {}".format(self.scores), 35)
             # self.show_score(self.xScreen - 200, 20, "duyduysysy@gmail.com", 15)
-            # self.image_draw("./data/codelearn-logo.png",
-            #                 self.xScreen-180, 10, 150, 60)  # Logo code Learn
             self.enemy()
             self.bullet()
             self.image_draw(self.linkPlanes, self.xPlanes,
