@@ -263,10 +263,6 @@ from object.start import Start
 if __name__ == "__main__":
     isStart = True
     start= Start()
-<<<<<<< HEAD
-=======
-    # start._update_screen()
->>>>>>> nhung
     start.init()
         # if not start.init():
         #     isStart = False
