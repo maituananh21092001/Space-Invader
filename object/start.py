@@ -30,10 +30,10 @@ class Start:
         color = (255,255,255)
         
         # light shade of the button
-        color_light = (177,117,255)
+        color_light = (164,108,241)
         
         # dark shade of the button
-        color_dark = (164,108,241)
+        color_dark = (79,47,153)
         
         # stores the width of the
         # screen into a variable
@@ -89,21 +89,21 @@ class Start:
             # if mouse is hovered on a button it
             # changes to lighter shade 
             if width/3+100 <= mouse[0] <= width/3+240 and height/3+150 <= mouse[1] <= height/3+190:
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+250,140,40])
-            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+200 <= mouse[1]<= height/3+240):
+                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+150,140,40])
                 pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+250,140,40])
-            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+250 <= mouse[1]<= height/3+290):
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+150,140,40])
                 pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
-            else:
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+150,140,40])
+            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+200 <= mouse[1]<= height/3+240):
                 pygame.draw.rect(screen,color_dark,[width/3+100,height/3+200,140,40])
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
+            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+250 <= mouse[1]<= height/3+290):
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
                 pygame.draw.rect(screen,color_dark,[width/3+100,height/3+250,140,40])
+            else:
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
+                pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
             
             # # superimposing the text onto our button
             screen.blit(text , (width/3+150,height/3+150+10))
