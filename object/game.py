@@ -1,4 +1,5 @@
 import pygame
+import time
 import random
 from pygame import mixer
 from object.const import *
@@ -42,6 +43,8 @@ class Game:
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
         self.load_data()
         self.font_name = pygame.font.match_font(FONT_NAME)
+    clock = pygame.time.Clock()
+    clock.tick(20000)    
 
     def music(self, url, x):  # Âm thanh bắn với tham số x là số lần lặp lại, mặc định 0 là không lặp, -1 là luôn lặp
         bulletSound = mixer.Sound(url)
@@ -65,7 +68,7 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra người hình ảnh
-        PlanesImg = pygame.image.load(url)
+        PlanesImg = pygame.image.load(url).convert_alpha()
         PlanesImg = pygame.transform.scale(
             PlanesImg, (xImg, yImg))  # change size image
         self.screen.blit(PlanesImg, (xLocal, yLocal))
@@ -111,7 +114,6 @@ class Game:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
-
     def run(self):
         self.music("./data/musictheme.wav",-1)
         while self.gamerunning:
@@ -202,5 +204,5 @@ class Game:
             self.enemy()
             self.bullet()
             self.image_draw(self.linkPlanes, self.xPlanes,
-                            self.yPlanes, self.sizexPlanes, self.sizeyPlanes)
+                            self.yPlanes, self.sizexPlanes, self.sizeyPlanes)           
             pygame.display.update()  # Update

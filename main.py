@@ -1,6 +1,6 @@
-import pygame
-import random
-from pygame import mixer
+#import pygame
+#import random
+#from pygame import mixer
 from object.start import Start
 
 if __name__ == "__main__":

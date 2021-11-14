@@ -17,6 +17,10 @@ def gameover(self):
                             if event.key == pygame.K_r:                           
                                 newGame = True
                                 break
+                            if event.key == pygame.K_q:                           
+                                newGame = False
+                                pygame.quit()
+                                break
                     if(newGame == True):
                         break
                     self.text(
@@ -25,14 +29,6 @@ def gameover(self):
                             25,
                             './data/font/ARCADE_R.TTF',
                             WHITE)
-
-                    self.text(
-                            WIDTH/2 - 50, HEIGHT - 100, 
-                            "RETRY",
-                            40,
-                             './data/font/ARCADE_R.TTF',
-                             GREEN)  
-
                     self.text(
                             WIDTH/2-250, HEIGHT/2-100,
                             "GAME OVER", 
@@ -40,8 +36,9 @@ def gameover(self):
                             './data/font/ARCADE_I.TTF',
                             WHITE)  # In Thông báo thua
 
-                    self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
-
+                    self.draw_text("Press R to try again", 22, GREEN,100, HEIGHT * 3 / 4)
+                    self.draw_text(f"Mode: ", 22, WHITE,50,50)
+                    self.draw_text("Press Q to quit", 22, RED, WIDTH - 100, HEIGHT * 3 / 4)
                     if self.scores > self.highscore:
                             self.highscore = self.scores
                             self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 20)
