@@ -22,10 +22,10 @@ class Game:
         self.scores = 0  # Điểm số
         self.numberEnemy =  NumberEnemy # Số lượng enemy trong một screen
         self.numberBullet = 6  # Số bullet trong một screen
-        linkBackGround = './data/background.jpg'  # Đường dẫn ảnh background
-        self.linkEnemy = './data/enemy.png'  # Đường dẫn ảnh Enemy
-        self.linkEnemyKilled = './data/enemykilled.png' # Đường dẫn ảnh EnemyKilled
-        self.linkPlanes = './data/planes.png'  # Đường dẫn ảnh Planes
+        linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
+        self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
+        self.linkPlanes = './data/planes.bmp'  # Đường dẫn ảnh Planes
+        self.linkEnemyKilled = './data/enemykilled.bmp'
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
@@ -99,7 +99,7 @@ class Game:
         for count, i in enumerate(self.listBullet):
             xBullet = i["xBullet"]  # Lấy trúc tọa độ theo X
             yBullet = i["yBullet"]  # Lấy trúc tọa độ theo X
-            self.image_draw('./data/bullet.png', xBullet,
+            self.image_draw('./data/bullet.bmp', xBullet,
                             yBullet, 50, 50)  # In ra bullet
             self.listBullet[count]["yBullet"] = yBullet - \
                 self.VBullet  # Tiến y vè phía trước
@@ -115,7 +115,7 @@ class Game:
             except:
                 self.highscore = 0
     def run(self):
-        self.music("./data/musictheme.wav",-1)
+        self.music("./data/musictheme.ogg",-1)
         while self.gamerunning:
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
@@ -132,7 +132,7 @@ class Game:
                         self.K_RIGHT = True
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
-                            self.music("./data/laser.wav",0)
+                            self.music("./data/laser.ogg",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
