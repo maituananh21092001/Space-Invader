@@ -4,18 +4,18 @@ from pygame import mixer
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 import sys
 from os import path
-class Game:
-    
 
-    def __init__(self,Espeed,NumberEnemy):
-        
+
+class Game:
+    def __init__(self, Espeed, NumberEnemy):
+
         pygame.init()  # Init pygame
         self.xScreen, self.yScreen = 1000, 600  # Screen create
         self.VBullet = 15  # Tốc độ Bullet
         self.VPlanes = 15  # Tốc độ Planes
-        self.VEnemy = Espeed # Tốc độ Enemy
+        self.VEnemy = Espeed  # Tốc độ Enemy
         self.scores = 0  # Điểm số
-        self.numberEnemy =  NumberEnemy # Số lượng enemy trong một screen
+        self.numberEnemy = NumberEnemy  # Số lượng enemy trong một screen
         self.numberBullet = 6  # Số bullet trong một screen
         linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
@@ -109,9 +109,9 @@ class Game:
                 self.highscore = 0
 
     def run(self):
-        self.music("./data/musictheme.ogg")
+        #self.music("./data/musictheme.ogg")
+
         while self.gamerunning:
-           
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
                 if event.type == pygame.QUIT:  # sự kiện nhấn thoát
@@ -127,7 +127,7 @@ class Game:
                         self.K_RIGHT = True
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
-                            self.music("./data/laser.ogg")
+                            #self.music("./data/laser.ogg")
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -192,8 +192,8 @@ class Game:
                 self.numberEnemy = (self.scores/15) + 2
             if self.YGameOver > self.yScreen-50:  # Nếu Enemy về gần đích
                 newGame = False
-                #self.music("./data/Game Over Sound Effect.wav")
-                #self.pause("../data/musictheme.wav")
+                # self.music("./data/Game Over Sound Effect.wav")
+                # self.pause("../data/musictheme.wav")
                 while(True):
                     for event in pygame.event.get():   # Nếu nhấn
                         if event.type == pygame.QUIT    :  # Thoát
