@@ -1,8 +1,13 @@
 import pygame
+import time
 import random
 from pygame import mixer
+from object.const import *
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
+from object.gameover import gameover
 import sys
+
+
 from os import path
 
 
@@ -10,7 +15,7 @@ class Game:
     def __init__(self, Espeed, NumberEnemy):
 
         pygame.init()  # Init pygame
-        self.xScreen, self.yScreen = 1000, 600  # Screen create
+        self.xScreen, self.yScreen = WIDTH,HEIGHT  # Screen create
         self.VBullet = 15  # Tốc độ Bullet
         self.VPlanes = 15  # Tốc độ Planes
         self.VEnemy = Espeed  # Tốc độ Enemy
@@ -20,6 +25,7 @@ class Game:
         linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
         self.linkPlanes = './data/planes.bmp'  # Đường dẫn ảnh Planes
+        self.linkEnemyKilled = './data/enemykilled.bmp'
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
@@ -37,15 +43,23 @@ class Game:
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
         self.load_data()
         self.font_name = pygame.font.match_font(FONT_NAME)
+    #clock = pygame.time.Clock()
+    #clock.tick(60)    
+    def level(self):
+        if self.VEnemy == 4:
+            return "Easy"
+        elif self.VEnemy == 6:
+            return "Medium"
+        else:
+            return "Hard"
+    def music(self, url, x):  # Âm thanh bắn với tham số x là số lần lặp lại, mặc định 0 là không lặp, -1 là luôn lặp
+        sound = mixer.Sound(url)
+        sound.play(x)
 
-    def music(self, url):  # Âm thanh bắn
-        bulletSound = mixer.Sound(url)
-        bulletSound.play()
-
-    def show_score(self, x, y, scores, size):  # Hiển thị điểm
-        font = pygame.font.SysFont("comicsansms", size)
-        score = font.render(str(scores), True, (255, 255, 255))
-        self.screen.blit(score, (x, y))
+    def text(self, x, y, text, size,font,color):  # Hiển thị điểm
+        font = pygame.font.Font(font, size)
+        txt = font.render(str(text), True, color)
+        self.screen.blit(txt, (x, y))
 
     def show_highest_score(self,x,y,scores,size):
         font = pygame.font.SysFont("comicsansms", size)
@@ -60,9 +74,8 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra người hình ảnh
-        PlanesImg = pygame.image.load(url)
-        PlanesImg = pygame.transform.scale(
-            PlanesImg, (xImg, yImg))  # change size image
+        PlanesImg = pygame.image.load(url).convert_alpha()
+        PlanesImg = pygame.transform.scale(PlanesImg, (xImg, yImg))  # change size image
         self.screen.blit(PlanesImg, (xLocal, yLocal))
 
     def enemy(self):  # Quản lý Enemy
@@ -98,19 +111,17 @@ class Game:
             if yBullet <= 5:  # nếu toạn độ Y phía trên nàm hình thì xóa
                 self.listBullet.remove(self.listBullet[count])
         # print(self.listBullet)
-
     def load_data(self):
         # load high score
         self.dir = path.dirname(__file__)
-        with open(path.join(self.dir, "highscores.txt"), 'r') as f:
+        with open(path.join(self.dir, f"./level/{self.level()}.txt"), 'r') as f:
             try:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
-
     def run(self):
-        #self.music("./data/musictheme.ogg")
 
+       # self.music("./data/musictheme.ogg",-1)
         while self.gamerunning:
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
@@ -127,7 +138,8 @@ class Game:
                         self.K_RIGHT = True
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
-                            #self.music("./data/laser.ogg")
+
+#                            self.music("./data/laser.ogg",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -181,6 +193,8 @@ class Game:
                     # Kiểm tra bullet có nằm giữa Enemy theo trục y không
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
+                        self.image_draw(self.linkEnemyKilled,xEnemy,yEnemy,self.sizexPlanes,self.sizeyPlanes)
+#                        self.music('./data/invaderkilled.ogg',0)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
@@ -190,73 +204,13 @@ class Game:
                         break
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2
-            if self.YGameOver > self.yScreen-50:  # Nếu Enemy về gần đích
-                newGame = False
-                # self.music("./data/Game Over Sound Effect.wav")
-                # self.pause("../data/musictheme.wav")
-                while(True):
-                    for event in pygame.event.get():   # Nếu nhấn
-                        if event.type == pygame.QUIT    :  # Thoát
-                            self.gamerunning = False
-                            newGame = True
-                            break
-                        if event.type == pygame.KEYDOWN:  # Thoát
-                            newGame = True
-                            break
-                    if(newGame == True):
-                        break
-                    self.show_score(100, 100, "Scores:{}".format(
-                        self.scores), 40)  # In điểm
-                    self.show_score(self.xScreen/2-100, self.yScreen/2-100,
-                                    "GAME OVER", 50)  # In Thông báo thua
-                   
-                    self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
-                    if self.scores > self.highscore:
-                            self.highscore = self.scores
-                            self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 20)
-                            with open(path.join(self.dir, HS_FILE), 'w') as f:
-                                f.write(str(self.scores))
-                    else:
-                        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
-                    pygame.display.update()
-                self.scores = 0      # Trả các biến về giá trị ban đầu
-                self.listBullet = []
-                self.listEnemy = []
-                self.YGameOver = 0
-            self.show_score(10, 10, "Scores: {}".format(self.scores), 35)
-            # self.show_score(self.xScreen - 200, 20, "duyduysysy@gmail.com", 15)
+
+            if self.YGameOver > self.yScreen-50: # Nếu Enemy về gần đích 
+                gameover(self)                
+            self.text(10, 10, "Scores:{}".format(self.scores), 20,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
             self.bullet()
             self.image_draw(self.linkPlanes, self.xPlanes,
-                            self.yPlanes, self.sizexPlanes, self.sizeyPlanes)
+                            self.yPlanes, self.sizexPlanes, self.sizeyPlanes)           
             pygame.display.update()  # Update
-# game options/settings
-TITLE = "Jumpy!"
-WIDTH = 480
-HEIGHT = 600
-FPS = 60
-FONT_NAME = 'arial'
-HS_FILE = "highscores.txt"
 
-# Player properties
-PLAYER_ACC = 0.5
-PLAYER_FRICTION = -0.12
-PLAYER_GRAV = 0.8
-PLAYER_JUMP = 20
-
-# Starting platforms
-PLATFORM_LIST = [(0, HEIGHT - 40, WIDTH, 40),
-                 (WIDTH / 2 - 50, HEIGHT * 3 / 4, 100, 20),
-                 (125, HEIGHT - 350, 100, 20),
-                 (350, 200, 100, 20),
-                 (175, 100, 50, 20)]
-
-# define colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-LIGHTBLUE = (0, 155, 155)
-BGCOLOR = LIGHTBLUE

@@ -1,3 +1,6 @@
-object/__pycache__
-object/level/__pycache__
+object/__pycache__/
+object/level/__pycache__/
 object/highscores.txt
+object/level/Easy.txt
+object/level/Medium.txt
+object/level/Hard.txt
