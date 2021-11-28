@@ -7,7 +7,6 @@ from object.const import *
 def gameover(self):
                 newGame = False
                 self.screen.fill(BLACK)
-                color = [WHITE,BLACK]
                 pygame.mixer.stop()
                 self.music("./data/Game Over Sound Effect.wav",0)                
                 while(True):
@@ -20,7 +19,8 @@ def gameover(self):
                             if event.key == pygame.K_r:                           
                                 newGame = True
                                 break
-                            if event.key == pygame.K_q:                           
+                            if event.key == pygame.K_q:
+                                newGame = False                           
                                 pygame.quit()
                                 break
                     if(newGame == True):
@@ -39,22 +39,20 @@ def gameover(self):
                             WHITE)  # In Thông báo thua
 
                     self.draw_text("Press R to try again", 22, GREEN,200, HEIGHT * 3 / 4)
-                    self.draw_text(f"Mode: ", 22, WHITE,50,50)
+                    self.draw_text(f"Mode: {self.level()}", 22, WHITE,100,50)
                     self.draw_text("Press Q to quit", 22, RED, WIDTH - 200, HEIGHT * 3 / 4)
                     if self.scores > self.highscore:
-                            self.highscore = self.scores
-                            for i in range(0,5000):
-                                self.draw_text("NEW HIGH SCORE!", 22, color[i%2], WIDTH / 2 + 150, HEIGHT / 2 + 40)
-                            with open(path.join(self.dir, HS_FILE), 'w') as f:
-                                f.write(str(self.scores))
+                        self.highscore = self.scores
+                        self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2 + 150, HEIGHT / 2 + 40)
+
+                        with open(path.join(self.dir, f"./level/{self.level()}.txt"), 'w') as f:
+                            f.write(str(self.scores))
                             
                     else:
                         self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
-
                     pygame.display.update()
-
                 self.scores = 0      # Trả các biến về giá trị ban đầu
                 self.listBullet = []
                 self.listEnemy = []
                 self.YGameOver = 0
-                self.music("./data/musictheme.wav",-1)
+                self.music("./data/musictheme.ogg",-1)
