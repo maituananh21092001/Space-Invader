@@ -43,12 +43,12 @@ class Game:
         self.K_DOWN = self.K_UP = self.K_LEFT = self.K_RIGHT = False
         self.load_data()
         self.font_name = pygame.font.match_font(FONT_NAME)
-    clock = pygame.time.Clock()
-    clock.tick(20000)    
+    #clock = pygame.time.Clock()
+    #clock.tick(60)    
 
     def music(self, url, x):  # Âm thanh bắn với tham số x là số lần lặp lại, mặc định 0 là không lặp, -1 là luôn lặp
-        bulletSound = mixer.Sound(url)
-        bulletSound.play(x)
+        sound = mixer.Sound(url)
+        sound.play(x)
 
     def text(self, x, y, text, size,font,color):  # Hiển thị điểm
         font = pygame.font.Font(font, size)
@@ -187,7 +187,7 @@ class Game:
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
                         self.image_draw(self.linkEnemyKilled,xEnemy,yEnemy,self.sizexPlanes,self.sizeyPlanes)
-                        self.music('./data/invaderkilled.wav',0)
+                        self.music('./data/invaderkilled.ogg',0)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
