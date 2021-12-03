@@ -5,10 +5,14 @@ from pygame import mixer
 from object.const import *
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 from object.gameover import gameover
+from object.level import *
 import sys
 
 
 from os import path
+
+from object.level.easy import Easy
+from object.level.medium import Medium
 
 
 class Game:
@@ -46,9 +50,9 @@ class Game:
     #clock = pygame.time.Clock()
     #clock.tick(60)    
     def level(self):
-        if self.VEnemy == 4:
+        if self.VEnemy == Easy.speed(self):
             return "Easy"
-        elif self.VEnemy == 6:
+        elif self.VEnemy == Medium.speed(self):
             return "Medium"
         else:
             return "Hard"
