@@ -12,6 +12,7 @@ import sys
 from os import path
 
 from object.level.easy import Easy
+from object.level.hard import Hard
 from object.level.medium import Medium
 
 
@@ -51,11 +52,11 @@ class Game:
     #clock.tick(60)    
     def level(self):
         if self.VEnemy == Easy.speed(self):
-            return "Easy"
+            return Easy.level(self)
         elif self.VEnemy == Medium.speed(self):
-            return "Medium"
+            return Medium.level(self)
         else:
-            return "Hard"
+            return Hard.level(self)
     def music(self, url, x):  # Âm thanh bắn với tham số x là số lần lặp lại, mặc định 0 là không lặp, -1 là luôn lặp
         sound = mixer.Sound(url)
         sound.play(x)
@@ -78,9 +79,9 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def image_draw(self, url, xLocal, yLocal, xImg, yImg):  # In ra hình ảnh
-        PlanesImg = pygame.image.load(url).convert_alpha()
-        PlanesImg = pygame.transform.scale(PlanesImg, (xImg, yImg))  # change size image
-        self.screen.blit(PlanesImg, (xLocal, yLocal))
+        Img = pygame.image.load(url).convert_alpha()
+        Img = pygame.transform.scale(Img, (xImg, yImg))  # change size image
+        self.screen.blit(Img, (xLocal, yLocal))
 
     def enemy(self):  # Quản lý Enemy
         for count, i in enumerate(self.listEnemy):
@@ -101,8 +102,6 @@ class Game:
             # Gán giá trị lớn nhất của Enemy theo y
             self.YGameOver = yEnemy if yEnemy > self.YGameOver else self.YGameOver
 
-            # print(xEnemy,yEnemy,self.xScreen,self.yScreen)
-            # print(self.listEnemy[count]["direction"])
 
     def bullet(self):
         for count, i in enumerate(self.listBullet):
@@ -114,7 +113,7 @@ class Game:
                 self.VBullet  # Tiến y vè phía trước
             if yBullet <= 5:  # nếu toạn độ Y phía trên nàm hình thì xóa
                 self.listBullet.remove(self.listBullet[count])
-        # print(self.listBullet)
+
     def load_data(self):
         # load high score
         self.dir = path.dirname(__file__)
@@ -185,8 +184,6 @@ class Game:
             for countEnemy, enemyIteam in enumerate(listEnemy2):
                 xEnemy = enemyIteam["xEnemy"]
                 yEnemy = enemyIteam["yEnemy"]
-                xEnemy = enemyIteam["xEnemy"]
-                yEnemy = enemyIteam["yEnemy"]
                 for countBullet, bulletIteam in enumerate(self.listBullet):
                     xBullet = bulletIteam["xBullet"]
                     yBullet = bulletIteam["yBullet"]
@@ -195,19 +192,18 @@ class Game:
                     # Kiểm tra bullet có nằm giữa Enemy theo trục y không
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
-                        self.image_draw(self.linkEnemyKilled,xEnemy,yEnemy,self.sizexPlanes,self.sizeyPlanes)
                         self.music('./data/invaderkilled.ogg',0)
+                        self.image_draw(self.linkEnemyKilled, xEnemy, yEnemy, self.sizexPlanes, self.sizeyPlanes)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
                             self.listBullet[countBullet])  # Xóa Bullet
                         self.scores = self.scores + 1  # CỘng thêm điểm
-                        # print(scores)
                         break
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2
 
-            if self.YGameOver > self.yScreen-50: # Nếu Enemy về gần đích 
+            if self.YGameOver > self.yScreen-50: # Nếu Enemy về đích 
                 gameover(self)                
             self.text(10, 10, "Scores:{}".format(self.scores), 20,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
