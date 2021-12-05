@@ -13,7 +13,7 @@ class Start:
     easy = Easy()
     med = Medium()
     hard = Hard()
-    status=[]
+    status = []
     def init(self):
         
         pygame.init()
@@ -40,11 +40,11 @@ class Start:
                 pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 200, 140, 40])
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
-            elif(WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+200 <= mouse[1] <= HEIGHT/3+240):
+            elif WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+200 <= mouse[1] <= HEIGHT/3+240:
                 pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 200, 140, 40])
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
-            elif(WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+250 <= mouse[1] <= HEIGHT/3+290):
+            elif WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+250 <= mouse[1] <= HEIGHT/3+290:
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT /3 + 200, 140 ,40])
                 pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
                 pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])

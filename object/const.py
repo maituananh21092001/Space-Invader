@@ -4,7 +4,7 @@
 WIDTH = 1000
 HEIGHT = 600
 FPS = 60
-FONT_NAME = 'arial'
+FONT_NAME = 'Calibri'
 
 # define colors
 WHITE = (255, 255, 255)

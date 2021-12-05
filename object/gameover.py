@@ -30,7 +30,7 @@ def gameover(self):
                     if(newGame == True):
                         break
                     self.text(
-                            WIDTH/2 - 75, HEIGHT/2, 
+                            WIDTH/2 - 100, HEIGHT/2, 
                             "Scores:{}".format(self.scores),
                             25,
                             './data/font/ARCADE_R.TTF',

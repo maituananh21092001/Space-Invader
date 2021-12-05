@@ -63,7 +63,7 @@ class Game:
         self.screen.blit(txt, (x, y))
 
     def draw_text(self, text, size, color, x, y):
-        font = pygame.font.SysFont('Arial', size)
+        font = pygame.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x, y)
@@ -76,8 +76,8 @@ class Game:
 
     def enemy(self):  # Quản lý Enemy
         for count, i in enumerate(self.listEnemy):
-            xEnemy = i["xEnemy"]  # Lấy toạn độ X
-            yEnemy = i["yEnemy"]  # Lấy toạn độ Y
+            xEnemy = i["xEnemy"]  # Lấy toạ độ X
+            yEnemy = i["yEnemy"]  # Lấy toạ độ Y
             self.YGameOver
             # print("đổi")
             if xEnemy < 0 or xEnemy > self.xScreen-self.sizexPlanes:  # Nếu chạm vào hai bên phải trái
@@ -93,13 +93,10 @@ class Game:
             # Gán giá trị lớn nhất của Enemy theo y
             self.YGameOver = yEnemy if yEnemy > self.YGameOver else self.YGameOver
 
-            # print(xEnemy,yEnemy,self.xScreen,self.yScreen)
-            # print(self.listEnemy[count]["direction"])
-
     def bullet(self):
         for count, i in enumerate(self.listBullet):
-            xBullet = i["xBullet"]  # Lấy trúc tọa độ theo X
-            yBullet = i["yBullet"]  # Lấy trúc tọa độ theo X
+            xBullet = i["xBullet"]  # Lấy trục tọa độ theo X
+            yBullet = i["yBullet"]  # Lấy trục tọa độ theo Y
             self.image_draw('./data/bullet.bmp', xBullet,
                             yBullet, 50, 50)  # In ra bullet
             self.listBullet[count]["yBullet"] = yBullet - \
@@ -176,13 +173,13 @@ class Game:
                     if event.key == pygame.K_RIGHT:
                         self.K_RIGHT = False
             if self.K_DOWN:
-                self.yPlanes = self.yPlanes+self.VPlanes/2  # TIến lên
+                self.yPlanes = self.yPlanes+self.VPlanes/2  # Tiến lên
             if self.K_UP:
-                self.yPlanes = self.yPlanes-self.VPlanes/2  # TIến xuống
+                self.yPlanes = self.yPlanes-self.VPlanes/2  # Tiến xuống
             if self.K_LEFT:
-                self.xPlanes = self.xPlanes-self.VPlanes  # TIến trái
+                self.xPlanes = self.xPlanes-self.VPlanes  # Tiến trái
             if self.K_RIGHT:
-                self.xPlanes = self.xPlanes+self.VPlanes  # TIến phải
+                self.xPlanes = self.xPlanes+self.VPlanes  # Tiến phải
             
             # Kiểm tra có vượt quá giới hạn màn hình  và sét về lề màn hình
             self.xPlanes = 0 if self.xPlanes < 0 else self.xPlanes
@@ -220,7 +217,7 @@ class Game:
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
                             self.listBullet[countBullet])  # Xóa Bullet
-                        self.scores = self.scores + 1  # CỘng thêm điểm
+                        self.scores = self.scores + 1  # Cộng thêm điểm
                         # print(scores)
                         break
             if self.numberEnemy < 7:
