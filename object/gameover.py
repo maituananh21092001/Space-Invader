@@ -1,9 +1,8 @@
 import pygame
 import time
 from os import path
-
+from object import start
 from object.const import *
-
 def gameover(self):
                 newGame = False
                 self.screen.fill(BLACK)
@@ -20,8 +19,10 @@ def gameover(self):
                                 newGame = True
                                 break
                             if event.key == pygame.K_q:
-                                newGame = False                           
-                                pygame.quit()
+                                newGame = False
+                                pygame.mixer.stop()
+                                s = start.Start()
+                                s.init()                           
                                 break
                     if(newGame == True):
                         break
@@ -55,4 +56,4 @@ def gameover(self):
                 self.listBullet = []
                 self.listEnemy = []
                 self.YGameOver = 0
-                self.music("./data/musictheme.ogg",-1)
+ #               self.music("./data/musictheme.ogg",-1)
