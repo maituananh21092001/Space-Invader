@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 from pygame import mixer
+from pygame.time import Clock
 from object.const import *
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 from object.gameover import gameover
@@ -36,7 +37,7 @@ class Game:
         icon = pygame.image.load(self.linkPlanes)
         pygame.display.set_icon(icon)  # Set icon cho screen
         self.gamerunning = True
-        game_over = False
+        pause = False
         self.listBullet = []
         self.listEnemy = []
         self.YGameOver = 0
@@ -119,6 +120,29 @@ class Game:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
+    def pause(self):
+        loop = 1
+        self.draw_text("GAME PAUSE", 80, WHITE, WIDTH / 2 , HEIGHT / 2 - 40 )
+        self.draw_text("Press space to continue", 22, GREEN, WIDTH / 2 - 100 , HEIGHT / 2 + 40 )
+        self.draw_text("Press Q to quit game", 22, RED, WIDTH / 2 + 100 , HEIGHT / 2 + 40 )
+        while loop:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    loop = 0
+                    pygame.quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        loop = 0
+                    if event.key == pygame.K_SPACE:
+                        self.screen.fill((0, 0, 0))
+                        loop = 0
+                    if event.key == pygame.K_q:
+                        loop = 0
+                        pygame.quit()
+            pygame.display.update()
+            # screen.fill((0, 0, 0))
+            clock = pygame.time.Clock()
+            clock.tick(60)
     def run(self):
 
        # self.music("./data/musictheme.ogg",-1)
@@ -136,6 +160,8 @@ class Game:
                         self.K_LEFT = True
                     if event.key == pygame.K_RIGHT:
                         self.K_RIGHT = True
+                    if event.key == pygame.K_q:
+                       self.pause()
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
 
@@ -162,7 +188,7 @@ class Game:
                 self.xPlanes = self.xPlanes-self.VPlanes  # TIến trái
             if self.K_RIGHT:
                 self.xPlanes = self.xPlanes+self.VPlanes  # TIến phải
-
+            
             # Kiểm tra có vượt quá giới hạn màn hình  và sét về lề màn hình
             self.xPlanes = 0 if self.xPlanes < 0 else self.xPlanes
             self.xPlanes = self.xScreen-self.sizexPlanes if self.xPlanes + \
