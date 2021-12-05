@@ -56,4 +56,4 @@ def gameover(self):
                 self.listBullet = []
                 self.listEnemy = []
                 self.YGameOver = 0
- #               self.music("./data/musictheme.ogg",-1)
+                self.music("./data/musictheme.ogg",-1)

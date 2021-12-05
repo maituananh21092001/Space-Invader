@@ -26,7 +26,7 @@ class Game:
         linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
         self.linkPlanes = './data/planes.bmp'  # Đường dẫn ảnh Planes
-        self.linkEnemyKilled = './data/enemykilled.bmp'
+        self.linkEnemyKilled = './data/enemykilled.bmp' # Đường dẫn ảnh EnemyKilled
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
@@ -145,7 +145,7 @@ class Game:
             clock.tick(60)
     def run(self):
 
-#        self.music("./data/musictheme.ogg",-1)
+        self.music("./data/musictheme.ogg",-1)
         while self.gamerunning:
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
@@ -165,7 +165,7 @@ class Game:
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
 
-#                            self.music("./data/laser.ogg",0)
+                            self.music("./data/laser.ogg",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -220,7 +220,7 @@ class Game:
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
                         self.image_draw(self.linkEnemyKilled,xEnemy,yEnemy,self.sizexPlanes,self.sizeyPlanes)
-#                        self.music('./data/invaderkilled.ogg',0)
+                        self.music('./data/invaderkilled.ogg',0)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
