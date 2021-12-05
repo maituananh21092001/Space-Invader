@@ -62,13 +62,8 @@ class Game:
         txt = font.render(str(text), True, color)
         self.screen.blit(txt, (x, y))
 
-    def show_highest_score(self,x,y,scores,size):
-        font = pygame.font.SysFont("comicsansms", size)
-        score = font.render(str(scores), True, (255, 255, 255))
-        self.screen.blit(score, (x, y))
-
     def draw_text(self, text, size, color, x, y):
-        font = pygame.font.Font(self.font_name, size)
+        font = pygame.font.SysFont('Arial', size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x, y)
@@ -122,9 +117,9 @@ class Game:
                 self.highscore = 0
     def pause(self):
         loop = 1
-        self.draw_text("GAME PAUSE", 80, WHITE, WIDTH / 2 , HEIGHT / 2 - 40 )
-        self.draw_text("Press space to continue", 22, GREEN, WIDTH / 2 - 100 , HEIGHT / 2 + 40 )
-        self.draw_text("Press Q to quit game", 22, RED, WIDTH / 2 + 100 , HEIGHT / 2 + 40 )
+        self.text(300, HEIGHT / 2 - 100, "GAME PAUSE", 80, './data/font/Cuprum-Bold.ttf', WHITE)
+        self.text(WIDTH / 2 - 300, HEIGHT / 2 + 40, "Press space to continue", 22, './data/font/Quicksand-Bold.ttf', WHITE)
+        self.text(WIDTH / 2 + 100, HEIGHT / 2 + 40, "Press Q to quit game", 22, './data/font/Quicksand-Bold.ttf', WHITE)
         while loop:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
