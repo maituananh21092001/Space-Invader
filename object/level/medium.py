@@ -4,4 +4,4 @@ class Medium:
     def numberEnemy(self):
         return 2
     def level(self):
-        return 'm'
+        return "Medium"

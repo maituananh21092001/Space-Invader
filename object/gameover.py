@@ -53,8 +53,7 @@ def gameover(self):
                         self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2 + 150, HEIGHT / 2 + 40)
 
                         with open(path.join(self.dir, f"./level/{self.level()}.txt"), 'w') as f:
-                            f.write(str(self.scores))
-                            
+                            f.write(str(self.scores))                           
                     else:
                         self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
                     pygame.display.update()

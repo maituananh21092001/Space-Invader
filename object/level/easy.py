@@ -4,4 +4,4 @@ class Easy:
     def numberEnemy(self):
         return 2
     def level(self):
-        return 'e'
+        return "Easy"
