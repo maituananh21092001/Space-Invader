@@ -2,6 +2,8 @@ import pygame
 import time
 import random
 from pygame import mixer
+from object import start
+from pygame.time import Clock
 from object.const import *
 from pygame.constants import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 from object.gameover import gameover
@@ -30,7 +32,7 @@ class Game:
         linkBackGround = './data/background.bmp'  # Đường dẫn ảnh background
         self.linkEnemy = './data/enemy.bmp'  # Đường dẫn ảnh Enemy
         self.linkPlanes = './data/planes.bmp'  # Đường dẫn ảnh Planes
-        self.linkEnemyKilled = './data/enemykilled.bmp'
+        self.linkEnemyKilled = './data/enemykilled.bmp' # Đường dẫn ảnh EnemyKilled
         self.sizexPlanes, self.sizeyPlanes = 80, 80
         self.xPlanes, self.yPlanes = self.xScreen / \
             2, self.yScreen-100  # Khởi tao vị trí ban đầu planes
@@ -41,7 +43,7 @@ class Game:
         icon = pygame.image.load(self.linkPlanes)
         pygame.display.set_icon(icon)  # Set icon cho screen
         self.gamerunning = True
-        game_over = False
+        pause = False
         self.listBullet = []
         self.listEnemy = []
         self.YGameOver = 0
@@ -66,11 +68,6 @@ class Game:
         txt = font.render(str(text), True, color)
         self.screen.blit(txt, (x, y))
 
-    def show_highest_score(self,x,y,scores,size):
-        font = pygame.font.SysFont("comicsansms", size)
-        score = font.render(str(scores), True, (255, 255, 255))
-        self.screen.blit(score, (x, y))
-
     def draw_text(self, text, size, color, x, y):
         font = pygame.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
@@ -85,8 +82,8 @@ class Game:
 
     def enemy(self):  # Quản lý Enemy
         for count, i in enumerate(self.listEnemy):
-            xEnemy = i["xEnemy"]  # Lấy toạn độ X
-            yEnemy = i["yEnemy"]  # Lấy toạn độ Y
+            xEnemy = i["xEnemy"]  # Lấy toạ độ X
+            yEnemy = i["yEnemy"]  # Lấy toạ độ Y
             self.YGameOver
             # print("đổi")
             if xEnemy < 0 or xEnemy > self.xScreen-self.sizexPlanes:  # Nếu chạm vào hai bên phải trái
@@ -102,11 +99,10 @@ class Game:
             # Gán giá trị lớn nhất của Enemy theo y
             self.YGameOver = yEnemy if yEnemy > self.YGameOver else self.YGameOver
 
-
     def bullet(self):
         for count, i in enumerate(self.listBullet):
-            xBullet = i["xBullet"]  # Lấy trúc tọa độ theo X
-            yBullet = i["yBullet"]  # Lấy trúc tọa độ theo X
+            xBullet = i["xBullet"]  # Lấy trục tọa độ theo X
+            yBullet = i["yBullet"]  # Lấy trục tọa độ theo Y
             self.image_draw('./data/bullet.bmp', xBullet,
                             yBullet, 50, 50)  # In ra bullet
             self.listBullet[count]["yBullet"] = yBullet - \
@@ -122,7 +118,33 @@ class Game:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
+    def pause(self):
+        loop = 1
+        self.text(300, HEIGHT / 2 - 100, "GAME PAUSE", 80, './data/font/Cuprum-Bold.ttf', WHITE)
+        self.text(WIDTH / 2 - 300, HEIGHT / 2 + 40, "Press space to continue", 22, './data/font/Quicksand-Bold.ttf', WHITE)
+        self.text(WIDTH / 2 + 100, HEIGHT / 2 + 40, "Press Q to quit game", 22, './data/font/Quicksand-Bold.ttf', WHITE)
+        while loop:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    loop = 0
+                    pygame.quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        loop = 0
+                    if event.key == pygame.K_SPACE:
+                        self.screen.fill((0, 0, 0))
+                        loop = 0
+                    if event.key == pygame.K_q:
+                        loop = 0
+                        pygame.quit()
+                        s = start.Start()
+                        s.init()
+            pygame.display.update()
+            # screen.fill((0, 0, 0))
+            clock = pygame.time.Clock()
+            clock.tick(60)
     def run(self):
+
         self.music("./data/musictheme.ogg",-1)
         while self.gamerunning:
             self.screen.blit(self.background, (0, 0))
@@ -138,8 +160,11 @@ class Game:
                         self.K_LEFT = True
                     if event.key == pygame.K_RIGHT:
                         self.K_RIGHT = True
+                    if event.key == pygame.K_q:
+                       self.pause()
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
+
                             self.music("./data/laser.ogg",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
@@ -156,14 +181,14 @@ class Game:
                     if event.key == pygame.K_RIGHT:
                         self.K_RIGHT = False
             if self.K_DOWN:
-                self.yPlanes = self.yPlanes+self.VPlanes/2  # TIến lên
+                self.yPlanes = self.yPlanes+self.VPlanes/2  # Tiến lên
             if self.K_UP:
-                self.yPlanes = self.yPlanes-self.VPlanes/2  # TIến xuống
+                self.yPlanes = self.yPlanes-self.VPlanes/2  # Tiến xuống
             if self.K_LEFT:
-                self.xPlanes = self.xPlanes-self.VPlanes  # TIến trái
+                self.xPlanes = self.xPlanes-self.VPlanes  # Tiến trái
             if self.K_RIGHT:
-                self.xPlanes = self.xPlanes+self.VPlanes  # TIến phải
-
+                self.xPlanes = self.xPlanes+self.VPlanes  # Tiến phải
+            
             # Kiểm tra có vượt quá giới hạn màn hình  và sét về lề màn hình
             self.xPlanes = 0 if self.xPlanes < 0 else self.xPlanes
             self.xPlanes = self.xScreen-self.sizexPlanes if self.xPlanes + \
@@ -198,7 +223,8 @@ class Game:
                             self.listEnemy[countEnemy])  # Xóa Enemy
                         self.listBullet.remove(
                             self.listBullet[countBullet])  # Xóa Bullet
-                        self.scores = self.scores + 1  # CỘng thêm điểm
+                        self.scores = self.scores + 1  # Cộng thêm điểm
+                        # print(scores)
                         break
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2

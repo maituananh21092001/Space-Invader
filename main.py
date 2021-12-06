@@ -5,4 +5,3 @@ if __name__ == "__main__":
     isStart = True
     start= Start()
     start.init()
-

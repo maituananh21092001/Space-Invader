@@ -1,8 +1,10 @@
 # game options/settings
+
+
 WIDTH = 1000
 HEIGHT = 600
 FPS = 60
-FONT_NAME = 'arial'
+FONT_NAME = 'Calibri'
 
 # define colors
 WHITE = (255, 255, 255)
@@ -12,3 +14,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 LIGHTBLUE = (0, 155, 155)
+LIGHT_MODE_COLOR = (164, 108, 241)
+DARK_MODE_COLOR = (79, 47, 153)
+RETRY_COLOR = (2, 244, 248)
+QUIT_COLOR = (254, 0, 254)

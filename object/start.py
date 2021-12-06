@@ -1,113 +1,85 @@
 import pygame
 
 import sys
+from object.const import DARK_MODE_COLOR, HEIGHT, LIGHT_MODE_COLOR, WHITE, WIDTH
 
 from object.game import Game
 from object.level.easy import Easy
 from object.level.medium import Medium
 from object.level.hard import Hard
-# initializing the constructor
+
 class Start:
     
     easy = Easy()
     med = Medium()
     hard = Hard()
-    status=[]
+    status = []
     def init(self):
         
         pygame.init()
-        game = Game(6,2)
-        # screen resolution
-        res = (1000,600)
-        
-        # opens up a window
+        game = Game(6, 2)
+        res = (WIDTH, HEIGHT)
         screen = pygame.display.set_mode(res)
 
-        # background
-        bg = pygame.image.load("./data/start.bmp")
-
-        # white color
-        color = (255,255,255)
+        bg = pygame.image.load("./data/start.bmp") # background
+        mode_font = pygame.font.SysFont('Corbel', 20) # font và size chữ của nút chế độ chơi
         
-        # light shade of the button
-        color_light = (164,108,241)
+        # văn bản hiển thị nút chế độ chơi
+        text = mode_font.render('easy', True, WHITE)
+        text1 = mode_font.render('medium', True, WHITE)
+        text2 = mode_font.render('hard', True, WHITE)
         
-        # dark shade of the button
-        color_dark = (79,47,153)
-        
-        # stores the width of the
-        # screen into a variable
-        width = screen.get_width()
-        
-        # stores the height of the
-        # screen into a variable
-        height = screen.get_height()
-        
-        # defining a font
-        smallfont = pygame.font.SysFont('Corbel',20)
-        
-        # rendering a text written in
-        # this font
-        text = smallfont.render('easy' , True , color)
-        text1 = smallfont.render('medium', True, color)
-        text2 = smallfont.render('hard',True,color)
         while True:
+
+            screen.blit(bg, (0, 0)) # in background
+
+            mouse = pygame.mouse.get_pos() # lưu tọa độ chuột vào biến dưới kiểu tuple
+
+            # thay đổi màu của nút tối hơn khi di chuột đến nút
+            if WIDTH / 3 + 100 <= mouse[0] <= WIDTH / 3 + 240 and HEIGHT / 3 + 150 <= mouse[1] <= HEIGHT / 3 + 190:
+                pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 200, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
+            elif WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+200 <= mouse[1] <= HEIGHT/3+240:
+                pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 200, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
+            elif WIDTH/3+100 <= mouse[0] <= WIDTH/3+240 and HEIGHT/3+250 <= mouse[1] <= HEIGHT/3+290:
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT /3 + 200, 140 ,40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
+                pygame.draw.rect(screen, DARK_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
+            else:
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 150, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 200, 140, 40])
+                pygame.draw.rect(screen, LIGHT_MODE_COLOR, [WIDTH / 3 + 100, HEIGHT / 3 + 250, 140, 40])
             
             for ev in pygame.event.get():
                 
                 if ev.type == pygame.QUIT:
                     pygame.quit()
                     
-                #checks if a mouse is clicked
-                if ev.type == pygame.MOUSEBUTTONDOWN:
+                if ev.type == pygame.MOUSEBUTTONDOWN:  # kiểm tra có nhấp chuột hay không
                     
-                    #if the mouse is clicked on the
-                    # button the game is terminated
-                    if width/3+100 <= mouse[0] <= width/3+240 and height/3+150 <= mouse[1] <= height/3+190:
-                        self.status = [self.easy.speed(),self.easy.numberEnemy()]
-                        game = Game(self.status[0],self.status[1])
+                    # nếu nhấp chuột vào nút thì game bắt đầu với chế độ tương ứng
+                    if WIDTH / 3 + 100 <= mouse[0] <= WIDTH / 3 + 240 and HEIGHT / 3 + 150 <= mouse[1] <= HEIGHT / 3 + 190:
+                        self.status = [self.easy.speed(), self.easy.numberEnemy()]
+                        game = Game(self.status[0], self.status[1])
                         game.run()
                         pygame.quit()
-                    if width/3+100 <= mouse[0] <= width/3+240 and height/3+200 <= mouse[1] <= height/3+240:
-                        self.status = [self.med.speed(),self.med.numberEnemy()]
-                        game = Game(self.status[0],self.status[1])
+                    if WIDTH / 3 + 100 <= mouse[0] <= WIDTH / 3 + 240 and HEIGHT / 3 + 200 <= mouse[1] <= HEIGHT / 3 + 240:
+                        self.status = [self.med.speed(), self.med.numberEnemy()]
+                        game = Game(self.status[0], self.status[1])
                         game.run()
                         pygame.quit()
-                    if width/3+100 <= mouse[0] <= width/3+240 and height/3+250 <= mouse[1] <= height/3+290:
-                        self.status = [self.hard.speed(),self.hard.numberEnemy()]
-                        game = Game(self.status[0],self.status[1])
+                    if WIDTH / 3 + 100 <= mouse[0] <= WIDTH / 3 + 240 and HEIGHT / 3 + 250 <= mouse[1] <= HEIGHT / 3 + 290:
+                        self.status = [self.hard.speed(), self.hard.numberEnemy()]
+                        game = Game(self.status[0], self.status[1])
                         game.run()
                         pygame.quit()
-                        
-            # print background
-            screen.blit(bg, (0, 0))
-            
-            # stores the (x,y) coordinates into
-            # the variable as a tuple
-            mouse = pygame.mouse.get_pos()
-            
-            # if mouse is hovered on a button it
-            # changes to lighter shade 
-            if width/3+100 <= mouse[0] <= width/3+240 and height/3+150 <= mouse[1] <= height/3+190:
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
-            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+200 <= mouse[1]<= height/3+240):
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
-            elif(width/3+100<=mouse[0]<=width/3+240 and height/3+250 <= mouse[1]<= height/3+290):
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_dark,[width/3+100,height/3+250,140,40])
-            else:
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+150,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+200,140,40])
-                pygame.draw.rect(screen,color_light,[width/3+100,height/3+250,140,40])
-            
-            # # superimposing the text onto our button
-            screen.blit(text , (width/3+150,height/3+150+10))
-            screen.blit(text1 , (width/3+140,height/3+200+10))
-            screen.blit(text2,(width/3+150,height/3+250+10))
-            # updates the frames of the game
-            pygame.display.update()
+
+            # ghi tên chế độ chơi lên nút
+            screen.blit(text, (WIDTH / 3 + 150, HEIGHT / 3 + 150 + 10))
+            screen.blit(text1, (WIDTH / 3 + 140, HEIGHT/ 3 + 200 + 10))
+            screen.blit(text2, (WIDTH / 3 + 150, HEIGHT / 3 + 250 + 10))
+
+            pygame.display.update() # cập nhật
