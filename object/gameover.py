@@ -18,7 +18,7 @@ def gameover(self):
                             newGame = True
                             break
                         if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_r:                           
+                            if event.key == pygame.K_r:
                                 newGame = True
                                 break
                             if event.key == pygame.K_q:
@@ -60,4 +60,11 @@ def gameover(self):
                 self.listBullet = []
                 self.listEnemy = []
                 self.YGameOver = 0
-                self.music("./data/musictheme.ogg",-1)
+                self.xPlanes, self.yPlanes = self.xScreen / \
+                    2, self.yScreen-100
+                self.K_DOWN = False
+                self.K_UP = False
+                self.K_LEFT = False
+                self.K_RIGHT = False
+
+#                self.music("./data/musictheme.ogg",-1)

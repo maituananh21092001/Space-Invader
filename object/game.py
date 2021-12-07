@@ -145,7 +145,7 @@ class Game:
             clock.tick(60)
     def run(self):
 
-        self.music("./data/musictheme.ogg",-1)
+#        self.music("./data/musictheme.ogg",-1)
         while self.gamerunning:
             self.screen.blit(self.background, (0, 0))
             for event in pygame.event.get():  # Bắt các sự kiện
@@ -165,7 +165,7 @@ class Game:
                     if event.key == pygame.K_SPACE:
                         if len(self.listBullet) < self.numberBullet:
 
-                            self.music("./data/laser.ogg",0)
+#                            self.music("./data/laser.ogg",0)
                             self.listBullet.append({  # Add Thêm bullet
                                 "xBullet": self.xPlanes+self.sizexPlanes/2 - 25,
                                 "yBullet": self.yPlanes-self.sizexPlanes/2,
@@ -217,7 +217,7 @@ class Game:
                     # Kiểm tra bullet có nằm giữa Enemy theo trục y không
                     isInY = yEnemy <= yBullet <= yEnemy+self.sizexPlanes/1.2
                     if(isInX and isInY):  # nếu nằm giữa
-                        self.music('./data/invaderkilled.ogg',0)
+#                        self.music('./data/invaderkilled.ogg',0)
                         self.image_draw(self.linkEnemyKilled, xEnemy, yEnemy, self.sizexPlanes, self.sizeyPlanes)
                         self.listEnemy.remove(
                             self.listEnemy[countEnemy])  # Xóa Enemy
@@ -229,8 +229,10 @@ class Game:
             if self.numberEnemy < 7:
                 self.numberEnemy = (self.scores/15) + 2
 
-            if self.YGameOver > self.yScreen-50: # Nếu Enemy về đích 
+            if self.YGameOver > self.yScreen-50:
+                 # Nếu Enemy về đích 
                 gameover(self)
+              
             listEnemy3 = self.listEnemy
             rectPlane = pygame.Rect(self.xPlanes,self.yPlanes,self.sizexPlanes,self.sizeyPlanes).inflate(-25,-25)
             #pygame.draw.rect(self.screen, WHITE, rectPlane)
@@ -239,6 +241,7 @@ class Game:
                 collide = rectPlane.colliderect(rectEnemy)
                 if collide:
                     gameover(self)
+                   
                 #pygame.draw.rect(self.screen,RED,rectEnemy)
             self.text(10, 10, "Scores:{}".format(self.scores), 20,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
