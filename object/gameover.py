@@ -23,7 +23,7 @@ def gameover(self):
                                 break
                             if event.key == pygame.K_q:
                                 newGame = False
-                                pygame.mixer.stop()
+                                pygame.quit()
                                 s = start.Start()
                                 s.init()                           
                                 break
@@ -51,7 +51,6 @@ def gameover(self):
                     if self.scores > self.highscore:
                         self.highscore = self.scores
                         self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2 + 150, HEIGHT / 2 + 40)
-
                         with open(path.join(self.dir, f"./level/{self.level()}.txt"), 'w') as f:
                             f.write(str(self.scores))                           
                     else:
