@@ -67,4 +67,4 @@ def gameover(self):
                 self.K_LEFT = False
                 self.K_RIGHT = False
 
-#                self.music("./data/musictheme.ogg",-1)
+                self.music("./data/musictheme.wav",-1)
