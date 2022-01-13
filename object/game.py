@@ -230,7 +230,7 @@ class Game:
                 self.numberEnemy = (self.scores/15) + 2
 
             if self.YGameOver > self.yScreen-50: # Nếu Enemy về đích 
-                gameover(self)
+                gameover(self)              
             listEnemy3 = self.listEnemy
             rectPlane = pygame.Rect(self.xPlanes,self.yPlanes,self.sizexPlanes,self.sizeyPlanes).inflate(-25,-25)
             #pygame.draw.rect(self.screen, WHITE, rectPlane)
@@ -238,7 +238,7 @@ class Game:
                 rectEnemy = pygame.Rect(enemycount.get("xEnemy"),enemycount.get("yEnemy"),self.sizexPlanes,self.sizeyPlanes).inflate(-25,-25)
                 collide = rectPlane.colliderect(rectEnemy)
                 if collide:
-                    gameover(self)
+                    gameover(self)                    
                 #pygame.draw.rect(self.screen,RED,rectEnemy)
             self.text(10, 10, "Scores:{}".format(self.scores), 20,'./data/font/ARCADE_N.TTF',WHITE)
             self.enemy()
